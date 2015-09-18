@@ -4,7 +4,7 @@ namespace Fruitcake\Magerun\Modman;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Helper\Table;
 use N98\Magento\Command\AbstractMagentoCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,9 +20,7 @@ class GenerateCommand extends AbstractMagentoCommand
         $this
           ->setName('modman:generate')
           ->setDescription('Generate a modman file for the current directory.')
-          ->addOption('file', 'f',  InputOption::VALUE_OPTIONAL, 'Filename to save the modman file to.', 'modman')
           ->addOption('dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory in which the module files are located.')
-          ->addOption('preview', 'p', InputOption::VALUE_NONE, 'Only output the modman file, instead of writing.')
         ;
     }
 
@@ -33,42 +31,25 @@ class GenerateCommand extends AbstractMagentoCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Get dir, make sure it ends with 1 /
         $dir = $input->getOption('dir');
-        $dir = $dir ? rtrim($dir, '/') .'/' : '';
-
-        // Get filename to store modman file
-        $filename = ($input->getOption('file'));
 
         // Create a finder instance for all files in the dir.
         $finder = new Finder();
-        $finder->files()->in('./' . $dir);
+        $finder->files()->in($dir ? $dir : '.')->sortByName();
 
-        $paths = [];
+        $paths = array();
         foreach ($finder as $file) {
             /* @var $file SplFileInfo */
+
+            // Rewrite file to shortest path
             $path = $this->rewritePath($file->getRelativePathname());
+
+            // Force 1 space after first path
             $paths[$path] = $path;
         }
 
-        // Create the actual modman file
-        $content = '';
-        foreach ($paths as $path) {
-            $content .= $dir . $path . "\t" . $path . "\n";
-        }
-
-        // If preview, only show
-        if ($input->getOption('preview')) {
-            $output->writeln($content);
-        } else {
-            $write = file_put_contents($filename, $content);
-
-            if ($write === false) {
-                $output->writeln('<error>Could not write output to '.$filename.'</error>');
-            } else {
-                $output->writeLn('<info>Saved contents to '.$filename.'</info>');
-            }
-        }
+        // Print paths to screen
+        $this->outputPaths($output, $paths, $dir);
     }
 
     /**
@@ -87,5 +68,35 @@ class GenerateCommand extends AbstractMagentoCommand
         $path = preg_replace('{^skin/(.*?)/(.*?)/default/(.*?)/(.*?)/(.*)$}', 'skin/$1/$2/default/$3/$4', $path);
 
         return $path;
+    }
+
+    /**
+     * Render the modman paths in a nice format
+     *
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param array $paths
+     * @param string $prefix
+     */
+    protected function outputPaths(OutputInterface $output, $paths, $prefix = '')
+    {
+        // Make sure the prefix ends with 1 slash
+        $prefix = $prefix ? rtrim($prefix, '/') . '/' : '';
+
+        $rows = array();
+        foreach ($paths as $path) {
+            // Add dir prefix + space suffix
+            $rows[] = array($prefix . $path . ' ', $path);
+        }
+
+        // Write output in nice format
+        $table = new Table($output);
+        $table->setRows($rows);
+
+        // Set spaceless
+        $table->setStyle('compact');
+        $table->getStyle()->setBorderFormat('');
+
+        // Output to screen
+        $table->render();
     }
 }
