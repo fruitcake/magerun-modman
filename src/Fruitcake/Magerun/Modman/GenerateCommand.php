@@ -35,12 +35,16 @@ class GenerateCommand extends AbstractMagentoCommand
 
         // Create a finder instance for all files in the dir.
         $finder = new Finder();
-        $finder->files()->in($dir ? $dir : '.')->sortByName();
+        $finder
+          ->files()
+          ->in($dir ? $dir : '.')
+          ->depth('> 0')
+          ->sortByName();
 
         $paths = array();
-        foreach ($finder as $file) {
-            /* @var $file SplFileInfo */
 
+        /* @var $file SplFileInfo */
+        foreach ($finder as $file) {
             // Rewrite file to shortest path
             $path = $this->rewritePath($file->getRelativePathname());
 
