@@ -32,5 +32,5 @@ Examples:
 ```shell
 $ n98-magerun.phar modman:generate              # Will show modman script for current directory
 $ n98-magerun.phar modman:generate > modman     # Will write output to 'modman' file in current directory
-$ n98-magerun.phar modman:generate -d src       # Will scan the 'src' dir, as module root
+$ n98-magerun.phar modman:generate --dir="src"  # Will scan the 'src' dir, as module root
 ```
