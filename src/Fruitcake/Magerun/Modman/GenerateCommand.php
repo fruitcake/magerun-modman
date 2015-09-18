@@ -48,7 +48,7 @@ class GenerateCommand extends AbstractMagentoCommand
             // Rewrite file to shortest path
             $path = $this->rewritePath($file->getRelativePathname());
 
-            // Force 1 space after first path
+            // Use path as key to prevent duplicates
             $paths[$path] = $path;
         }
 
