@@ -12,7 +12,7 @@ mkdir -p ~/.n98-magerun/modules/
 
 ```shell
 cd ~/.n98-magerun/modules/
-git clone git@github.com:fruitcakestudio/magerun-modman.git
+git clone https://github.com/fruitcakestudio/magerun-modman.git
 ```
 
 3. It should be installed. Check if the `modman:generate` shows up.
