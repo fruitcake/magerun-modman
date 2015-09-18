@@ -1,0 +1,27 @@
+{
+  "name": "fruitcakestudio/magerun-modman",
+  "description": "Modman Addon for Magerun",
+  "keywords": ["magerun", "modman", "magento"],
+  "homepage": "https://github.com/fruitcakestudio/magerun-modman",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Barry vd. Heuvel",
+      "email": "barry@fruitcake.nl",
+      "homepage": "http://fruitcake.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "require-dev": {
+    "n98/magerun": "1.91.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Fruitcake": "src/"
+    }
+  }
+}

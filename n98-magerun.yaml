@@ -1,0 +1,6 @@
+autoloaders:
+  Fruitcake: %module%/src
+
+commands:
+  customCommands:
+    - Fruitcake\Magerun\Modman\GenerateCommand
