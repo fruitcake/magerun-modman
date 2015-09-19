@@ -60,13 +60,14 @@ class GenerateCommand extends AbstractMagentoCommand
      * Rewrite path. Based on https://gist.github.com/schmengler/88fa071822a95224373f
      *
      * app/code/community/VENDOR/PACKAGE/etc/config.xml -> app/code/community/VENDOR/PACKAGE
+     * Exclude Mage/Zend/Varien code from app/code and lib
      */
     protected function rewritePath($path)
     {
         $path = preg_replace('{^\./}', '', $path);
-        $path = preg_replace('{^app/code/(.*?)/(.*?)/(.*?)/(.*)$}', 'app/code/$1/$2/$3', $path);
-        $path = preg_replace('{^lib/(.*?)/(.*)$}', 'lib/$1', $path);
-        $path = preg_replace('{^js/(.*?)/(.*?)/(.*)$}', 'js/$1', $path);
+        $path = preg_replace('{^app/code/(local|community|core)/((?![Mage|Zend])\w+)/(\w+)/(.*)$}', 'app/code/$1/$2/$3', $path);
+        $path = preg_replace('{^lib/((?![Mage|Zend|Varien])\w+)/(.*)$}', 'lib/$1', $path);
+        $path = preg_replace('{^js/(.*?)/(.*?)/(.*)$}', 'js/$1/$2', $path);
         $path = preg_replace('{^app/design/(.*?)/(.*?)/default/layout/(.*?)/(.*)$}', 'app/design/$1/$2/default/layout/$3', $path);
         $path = preg_replace('{^app/design/(.*?)/(.*?)/default/template/(.*?)/(.*)$}', 'app/design/$1/$2/default/template/$3', $path);
         $path = preg_replace('{^skin/(.*?)/(.*?)/default/(.*?)/(.*?)/(.*)$}', 'skin/$1/$2/default/$3/$4', $path);
