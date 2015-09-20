@@ -38,7 +38,14 @@ class GenerateCommand extends AbstractMagentoCommand
         $finder
           ->files()
           ->in($dir ? $dir : '.')
-          ->depth('> 0')
+          ->path('app/code')
+          ->path('app/design')
+          ->path('app/etc/modules')
+          ->path('app/locale')
+          ->path('lib')
+          ->path('shell')
+          ->path('js')
+          ->path('skin')
           ->sortByName();
 
         $paths = array();
