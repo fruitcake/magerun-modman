@@ -37,6 +37,7 @@ class GenerateCommand extends AbstractMagentoCommand
         $finder = new Finder();
         $finder
           ->files()
+          ->depth('> 0')
           ->in($dir ? $dir : '.')
           ->path('app/code')
           ->path('app/design')
