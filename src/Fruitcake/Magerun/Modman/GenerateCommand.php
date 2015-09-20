@@ -69,7 +69,7 @@ class GenerateCommand extends AbstractMagentoCommand
      * app/code/community/VENDOR/PACKAGE/etc/config.xml -> app/code/community/VENDOR/PACKAGE
      * Exclude Mage/Zend/Varien code from app/code and lib
      */
-    protected function rewritePath($path)
+    public function rewritePath($path)
     {
         $path = preg_replace('{^\./}', '', $path);
         $path = preg_replace('{^app/code/(local|community|core)/((?![Mage|Zend])\w+)/(\w+)/(.*)$}', 'app/code/$1/$2/$3', $path);

@@ -14,10 +14,11 @@
     }
   ],
   "require": {
-    "php": ">=5.3.0"
+    "php": ">=5.3.0",
+    "n98/magerun": "1.x"
   },
   "require-dev": {
-    "n98/magerun": "1.91.*"
+    "phpunit/phpunit": "^4.1"
   },
   "autoload": {
     "psr-0": {
