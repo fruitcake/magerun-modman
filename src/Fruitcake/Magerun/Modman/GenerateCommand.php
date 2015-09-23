@@ -53,8 +53,16 @@ class GenerateCommand extends AbstractMagentoCommand
 
         /* @var $file SplFileInfo */
         foreach ($finder as $file) {
+            // Get the relative path
+            $path = $file->getRelativePathname();
+
+            // On windows, correct directory seperators
+            if (DIRECTORY_SEPARATOR === '\\') {
+                $path = str_replace('\\', '/', $path);
+            }
+
             // Rewrite file to shortest path
-            $path = $this->rewritePath($file->getRelativePathname());
+            $path = $this->rewritePath($path);
 
             // Use path as key to prevent duplicates
             $paths[$path] = $path;
