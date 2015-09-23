@@ -14,6 +14,8 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider rewrites
+     * @param string $source
+     * @param string $expected
      */
     public function testRewrite($source, $expected)
     {
@@ -36,6 +38,7 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider noRewrites
+     * @param string $source
      */
     public function testSkipsRewrite($source)
     {
