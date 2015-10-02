@@ -21,6 +21,7 @@ class GenerateCommand extends AbstractMagentoCommand
           ->setName('modman:generate')
           ->setDescription('Generate a modman file for the current directory.')
           ->addOption('dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory in which the module files are located.')
+          ->addOption('raw', 'r', InputOption::VALUE_NONE, 'Ouput the raw paths, without rewriting to the shortest variant.')
         ;
     }
 
@@ -32,6 +33,7 @@ class GenerateCommand extends AbstractMagentoCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dir = $input->getOption('dir');
+        $raw = $input->getOption('raw');
 
         // Create a finder instance for all files in the dir.
         $finder = new Finder();
@@ -53,8 +55,10 @@ class GenerateCommand extends AbstractMagentoCommand
                 $path = str_replace('\\', '/', $path);
             }
 
-            // Rewrite file to shortest path
-            $path = $this->rewritePath($path);
+            if ( ! $raw) {
+                // Rewrite file to shortest path
+                $path = $this->rewritePath($path);
+            }
 
             // Use path as key to prevent duplicates
             $paths[$path] = $path;

@@ -27,13 +27,16 @@ See other options here: [http://magerun.net/introducting-the-new-n98-magerun-mod
 Use this file to generate a modman file, based on the current directory.
 
 ```shell
-$ n98-magerun.phar modman:generate [-d|--dir[="..."]]
+$ magerun modman:generate [-d|--dir[="..."]] [-r|--raw]
 ```
 
 Examples:
 
 ```shell
-$ n98-magerun.phar modman:generate              # Will show modman script for current directory
-$ n98-magerun.phar modman:generate > modman     # Will write output to 'modman' file in current directory
-$ n98-magerun.phar modman:generate --dir="src"  # Will scan the 'src' dir, as module root
+$ magerun modman:generate              # Will show modman script for current directory
+$ magerun modman:generate > modman     # Will write output to 'modman' file in current directory
+$ magerun modman:generate --dir="src"  # Will scan the 'src' dir, as module root
+$ magerun modman:generate --raw        # Doesn't combine/rewrite the paths, but lists all files
 ```
+
+> Note: If the paths aren't correctly rewritten, you can try the `--raw` flag. This will create a line for each unique file.
